@@ -14,7 +14,7 @@ def fit_floorplan(data):
     #Tthresholding by 0.5
     ret, data_thresh = cv2.threshold(data, 0.5, 1,0)
     data_thresh = np.uint8(data_thresh)
-    data_img, data_cnt, data_heri = cv2.findContours(data_thresh, 1, 2)
+    data_cnt, data_heri = cv2.findContours(data_thresh, 1, 2)
 
     # Find the the largest connected component and its bounding box
     data_cnt.sort(key=lambda x: cv2.contourArea(x), reverse=True)
@@ -22,7 +22,7 @@ def fit_floorplan(data):
     data_sub = data_thresh[sub_y:sub_y+h,sub_x:sub_x+w]
 
     # Binary image to a densely sampled piece-wise linear closed loop
-    data_img, data_cnt, data_heri = cv2.findContours(data_sub, 1, 2)
+    data_cnt, data_heri = cv2.findContours(data_sub, 1, 2)
     data_cnt.sort(key=lambda x: cv2.contourArea(x), reverse=True)
     epsilon = 0.005*cv2.arcLength(data_cnt[0], True)
     approx = cv2.approxPolyDP(data_cnt[0], epsilon,True)
